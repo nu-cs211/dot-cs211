@@ -11,15 +11,12 @@ cmake_minimum_required(VERSION 3.3)
 #
 #   ASAN    enable address sanitizer
 #   UBSAN   enable undefined behavior sanitizer
+#   CXX17   enable C++ 2017
 #
 function (add_program name)
-    cmake_parse_arguments(pa "ASAN;UBSAN;" "" "" ${ARGN})
+    cmake_parse_arguments(pa "ASAN;UBSAN;CXX17;" "" "" ${ARGN})
 
     add_executable(${name} ${pa_UNPARSED_ARGUMENTS})
-
-    set_property(TARGET ${name} PROPERTY CXX_STANDARD          14)
-    set_property(TARGET ${name} PROPERTY CXX_STANDARD_REQUIRED On)
-    set_property(TARGET ${name} PROPERTY CXX_EXTENSIONS        Off)
 
     if(pa_ASAN)
         target_compile_options(${name} PRIVATE "-fsanitize=address")
@@ -30,6 +27,15 @@ function (add_program name)
         target_compile_options(${name} PRIVATE "-fsanitize=undefined")
         target_link_options(${name} PRIVATE "-fsanitize=undefined")
     endif(pa_UBSAN)
+
+    if(pa_CXX17)
+        set_property(TARGET ${name} PROPERTY CXX_STANDARD       17)
+    else(pa_CXX17)
+        set_property(TARGET ${name} PROPERTY CXX_STANDARD       14)
+    endif(pa_CXX17)
+
+    set_property(TARGET ${name} PROPERTY CXX_STANDARD_REQUIRED  On)
+    set_property(TARGET ${name} PROPERTY CXX_EXTENSIONS         Off)
 endfunction(add_program)
 
 # Adds a test program with the given name and source files
