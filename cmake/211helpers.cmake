@@ -6,10 +6,18 @@ cmake_minimum_required(VERSION 3.3)
 # Look for an installed package ${name}, otherwise load the vendored
 # version from ${dir}.
 function(find_local_package name dir)
-    find_package(${name} CONFIG QUIET)
-    if(NOT ${name}_FOUND)
+    cmake_parse_arguments(pa
+            ""
+            "VERSION"
+            ""
+            ${ARGN})
+    find_package(${name} ${pa_VERSION} CONFIG QUIET)
+    if(${name}_FOUND)
+        message(STATUS "Using system ${name} library (v${${name}_VERSION})")
+    else()
+        message(STATUS "Using vendored ${name} library (${dir})")
         add_subdirectory(${dir} EXCLUDE_FROM_ALL)
-    endif(NOT ${name}_FOUND)
+    endif()
 endfunction(find_local_package)
 
 macro(default_to var val)
