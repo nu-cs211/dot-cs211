@@ -1,8 +1,10 @@
 # CS 211 project configuration
 
-This directory contains files for configuring this EECS 211 project:
+This directory contains files for configuring this CS 211 project:
 
     cmake/ - build system setup
+
+    idea/ - CLion IDE configuration
 
     README.md - this file
 
@@ -12,6 +14,4 @@ This directory contains files for configuring this EECS 211 project:
         
         ge211/ - game engine library
         
-    share/ - other files we need to stash somewhere
-
-You probably shouldn’t change anything here.
+You probably shouldn’t change anything in here.
