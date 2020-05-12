@@ -9,8 +9,5 @@
     <libraryRoots>
       <file path="$PROJECT_DIR$/.cs211" />
     </libraryRoots>
-    <excludeRoots>
-      <file path="$PROJECT_DIR$/.run" />
-    </excludeRoots>
   </component>
 </project>
