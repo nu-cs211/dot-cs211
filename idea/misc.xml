@@ -10,4 +10,7 @@
       <file path="$PROJECT_DIR$/.cs211" />
     </libraryRoots>
   </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
 </project>
