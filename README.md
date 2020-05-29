@@ -12,8 +12,6 @@ This directory contains files for configuring this CS 211 project:
         
         ge211/ - game engine library
         
-    prototype/ - initial project setup
-        
     README.md - this file
 
 You probably shouldn’t change anything in here.
