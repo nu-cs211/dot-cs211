@@ -4,6 +4,7 @@
 .idea/**/dictionaries
 .idea/**/shelf/
 .idea/**/workspace.xml
+.idea/**/vcs.xml
 
 # build directories:
 build/
