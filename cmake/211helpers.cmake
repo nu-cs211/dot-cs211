@@ -1,6 +1,25 @@
 # Some helper functions.
 cmake_minimum_required(VERSION 3.3)
 
+include(CheckCXXCompilerFlag)
+
+# target_supported_options(target option ...)
+#
+# adds to the target all sets all options that are supported
+# by the C++ compiler.
+function(target_supported_options target)
+    set(scope PRIVATE)
+    foreach(flag ${ARGN})
+        string(TOUPPER "FLAG_${flag}_OKAY" sym)
+        string(REGEX REPLACE "[-=_]+" "_" sym "${sym}")
+        check_cxx_compiler_flag(${flag} ${sym})
+        if(${sym})
+            target_compile_options(${target} ${scope} ${flag})
+            target_link_options(${target} ${scope} ${flag})
+        endif()
+    endforeach()
+endfunction()
+
 # find_local_package(name dir)
 #
 # Look for an installed package ${name}, otherwise load the vendored

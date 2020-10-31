@@ -6,8 +6,8 @@ include(211commands)
 
 enable_testing()
 
-find_local_package(Catch2 .cs211/lib/catch VERSION 2020.1)
-find_local_package(Ge211  .cs211/lib/ge211 VERSION 2020.5)
+find_local_package(Catch2 .cs211/lib/catch VERSION 2020.2)
+find_local_package(Ge211  .cs211/lib/ge211 VERSION 2020.7)
 
 include_directories(src)
 
