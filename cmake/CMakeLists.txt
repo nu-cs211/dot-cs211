@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.3)
 
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cs211/cmake")
+if(NOT DOT_CS211_DIR)
+    set(DOT_CS211_DIR "${PROJECT_SOURCE_DIR}/.cs211")
+endif()
+
+list(APPEND CMAKE_MODULE_PATH "${DOT_CS211_DIR}/cmake")
 include(211helpers)
 include(211commands)
 

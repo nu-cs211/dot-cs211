@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.3)
 project(Test_dot_cs211 CXX)
-include(.cs211/cmake/CMakeLists.txt)
+
+set(DOT_CS211_DIR "${PROJECT_SOURCE_DIR}/..")
+include(../cmake/CMakeLists.txt)
 
 add_test_program(try_catch one_test.cxx)
 
