@@ -17,7 +17,7 @@ function (add_program name)
     cmake_parse_arguments(pa "ASAN;UBSAN;CXX17;" "" "" ${ARGN})
 
     add_executable(${name} ${pa_UNPARSED_ARGUMENTS})
-    target_compile_options(${name} PRIVATE ${CS211_CXX_FLAGS})
+    target_compile_supported_options(${name} ${CS211_CXX_FLAGS})
 
     if(pa_ASAN)
         target_compile_options(${name} PRIVATE "-fsanitize=address")
@@ -48,40 +48,43 @@ function(add_test_program name)
     add_test(Test_${name} ${name})
 endfunction(add_test_program)
 
-# Setup compilation flags
+###
+### Set up compilation flags
+###
 
 include(CheckCXXCompilerFlag)
 
-# Sets ${out} to the list of supported flags.
-function(cs211_set_supported_flags out)
-    set(accum)
+# target_compile_supported_options(${target} ${option} ...)
+# adds to the target all sets all options that are supported
+# by the C++ compiler.
+function(target_compile_supported_options target)
+    set(scope PRIVATE)
     foreach(flag ${ARGN})
-        string(TOUPPER "${flag}" varname)
-        string(REGEX REPLACE "[-=]" "_" varname "FLAG_${varname}_OK")
-        check_cxx_compiler_flag(-${flag} ${varname})
-        if(${varname})
-            list(APPEND accum -${flag})
+        string(TOUPPER "FLAG_${flag}_OKAY" sym)
+        string(REGEX REPLACE "[-=_]+" "_" sym "${sym}")
+        check_cxx_compiler_flag(${flag} ${sym})
+        if(${sym})
+            target_compile_options(${target} ${scope} ${flag})
         endif()
     endforeach()
-    set(${out} ${accum} PARENT_SCOPE)
 endfunction()
 
-# Flags we would like to pass to the compiler:
-cs211_set_supported_flags(CS211_CXX_FLAGS
-    Wcast-align=strict
-    Wcast-qual
-    Wdangling-else
-    Wnull-dereference
-    Wold-style-declaration
-    Wold-style-definition
-    Wshadow
-    Wtype-limits
-    Wwrite-strings
-    Werror=bool-compare
-    Werror=bool-operation
-    Werror=int-to-pointer-cast
-    Werror=pointer-to-int-cast
-    Werror=return-type
-    Werror=uninitialized)
+# Flags we would like turned on:
+set(CS211_CXX_FLAGS
+    -Wcast-align=strict
+    -Wcast-qual
+    -Wdangling-else
+    -Wnull-dereference
+    -Wold-style-declaration
+    -Wold-style-definition
+    -Wshadow
+    -Wtype-limits
+    -Wwrite-strings
+    -Werror=bool-compare
+    -Werror=bool-operation
+    -Werror=int-to-pointer-cast
+    -Werror=pointer-to-int-cast
+    -Werror=return-type
+    -Werror=uninitialized)
 
 # vim: ft=cmake
