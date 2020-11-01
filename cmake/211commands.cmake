@@ -42,7 +42,7 @@ function (add_program name)
     cmake_parse_arguments(pa "ASAN;NO_UBSAN;CXX17;CXX20;" "" "" ${ARGN})
 
     add_executable(${name} ${pa_UNPARSED_ARGUMENTS})
-    target_supported_options(${name} ${CS211_CXX_FLAGS})
+    target_supported_compile_options(${name} ${CS211_CXXFLAGS})
 
     if(pa_ASAN)
         target_compile_options(${name} PRIVATE "-fsanitize=address")
@@ -91,7 +91,7 @@ function(add_test_program name)
 endfunction(add_test_program)
 
 # Compilation flags we turn on automatically if available.
-set(CS211_CXX_FLAGS
+set(CS211_CXXFLAGS
     -Wall
     -Wcast-align=strict
     -Wcast-qual

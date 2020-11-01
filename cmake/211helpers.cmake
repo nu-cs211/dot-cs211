@@ -3,16 +3,34 @@ cmake_minimum_required(VERSION 3.3)
 
 include(CheckCXXCompilerFlag)
 
-# target_supported_options(target option ...)
+# target_supported_compile_options(target option ...)
 #
-# adds to the target all sets all options that are supported
-# by the C++ compiler.
-function(target_supported_options target)
+# adds to the target all options that are supported by the
+# C++ compiler.
+function(target_supported_compile_options target)
     set(scope PRIVATE)
     foreach(flag ${ARGN})
-        string(TOUPPER "FLAG_${flag}_OKAY" sym)
+        string(TOUPPER "CXXFLAG_${flag}_OKAY" sym)
         string(REGEX REPLACE "[-=_]+" "_" sym "${sym}")
         check_cxx_compiler_flag(${flag} ${sym})
+        if(${sym})
+            target_compile_options(${target} ${scope} ${flag})
+        endif()
+    endforeach()
+endfunction()
+
+# target_supported_options(target option ...)
+#
+# adds to the target all options that are supported by the
+# C++ compiler and linker.
+function(target_supported_options target)
+    set(scope PRIVATE)
+    set(original_flags ${CMAKE_CXX_FLAGS})
+    foreach(flag ${ARGN})
+        string(TOUPPER "LDFLAG_${flag}_OKAY" sym)
+        string(REGEX REPLACE "[-=_]+" "_" sym "${sym}")
+        set(CMAKE_CXX_FLAGS "${original_flags} ${flag}")
+        check_cxx_source_compiles("int main(){}" ${sym})
         if(${sym})
             target_compile_options(${target} ${scope} ${flag})
             target_link_options(${target} ${scope} ${flag})
