@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 
 if(NOT DOT_CS211)
-    set(DOT_CS211 "${PROJECT_SOURCE}/.cs211")
+    set(DOT_CS211 "${PROJECT_SOURCE_DIR}/.cs211")
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${DOT_CS211}/cmake")
