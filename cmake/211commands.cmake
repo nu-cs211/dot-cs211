@@ -97,7 +97,6 @@ set(CS211_CXXFLAGS
     -Wcast-qual
     -Wdangling-else
     -Wnull-dereference
-    -Wshadow
     -Wtype-limits
     -Wwrite-strings
     -Werror=bool-compare
