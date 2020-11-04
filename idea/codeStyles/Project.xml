@@ -11,7 +11,6 @@
       <option name="INDENT_NAMESPACE_MEMBERS" value="0" />
       <option name="INDENT_PREPROCESSOR_DIRECTIVE" value="2" />
       <option name="KEEP_STRUCTURES_IN_ONE_LINE" value="true" />
-      <option name="KEEP_CASE_EXPRESSIONS_IN_ONE_LINE" value="true" />
       <option name="KEEP_DIRECTIVE_AT_FIRST_COLUMN" value="false" />
       <option name="FUNCTION_BRACE_PLACEMENT" value="2" />
       <option name="FUNCTION_TOP_AFTER_RETURN_TYPE_WRAP" value="2" />
@@ -27,8 +26,6 @@
       <option name="TEMPLATE_CALL_ARGUMENTS_NEW_LINE_AFTER_LT" value="true" />
       <option name="CLASS_CONSTRUCTOR_INIT_LIST_WRAP" value="2" />
       <option name="CLASS_CONSTRUCTOR_INIT_LIST_NEW_LINE_BEFORE_COLON" value="1" />
-      <option name="SUPERCLASS_LIST_WRAP" value="2" />
-      <option name="SUPERCLASS_LIST_BEFORE_COLON" value="1" />
       <option name="SPACE_BEFORE_TEMPLATE_DECLARATION_LT" value="true" />
       <option name="SPACE_WITHIN_TEMPLATE_DOUBLE_GT" value="false" />
       <option name="SPACE_WITHIN_EMPTY_BRACES" value="true" />
