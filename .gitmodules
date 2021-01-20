@@ -6,4 +6,5 @@
 [submodule "lib/catch"]
 	path = lib/catch
 	url = https://github.com/nu-cs211/catch.git
+	branch = master
 	update = rebase
