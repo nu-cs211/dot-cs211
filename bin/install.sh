@@ -12,12 +12,27 @@ main () {
 
 install_dot_idea () {
     rm -Rf .idea
-    cp -vRL .cs211/idea .idea
+    hardlink_dir .cs211/idea .idea
 }
 
 install_dot_gitignore () {
-    rm -Rf .gitignore
-    cp -v .cs211/.gitignore .gitignore
+    rm -f .gitignore
+    ln -fv .cs211/.gitignore .gitignore
+}
+
+hardlink_dir () {
+    NUL="$(printf '\0')"
+
+    if [ -d "$1" ]; then
+        mkdir "$2"
+
+        find "$1" -depth 1 -print0 |
+            while read -d "$NUL" item; do
+                hardlink_dir "$item" "$2/${item##*/}"
+            done
+    else
+        ln -fv "$1" "$2"
+    fi
 }
 
 ####
