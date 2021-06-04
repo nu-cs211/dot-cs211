@@ -11,7 +11,7 @@ include(211commands)
 enable_testing()
 
 find_local_package(Catch2 ${DOT_CS211}/lib/catch VERSION 2020.2)
-find_local_package(Ge211  ${DOT_CS211}/lib/ge211 VERSION 2021.3)
+find_local_package(Ge211  ${DOT_CS211}/lib/ge211 VERSION 2021.6)
 
 include_directories(src)
 

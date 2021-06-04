@@ -39,6 +39,38 @@ include(211helpers)
 # target_link_libraries(Frogger ge211)
 # ```
 function (add_program name)
+    _add_program_common(${name} ${ARGN})
+    if (EMSCRIPTEN)
+        emscripten_add_target(${name})
+    endif ()
+endfunction(add_program)
+
+# ADD_TEST_PROGRAM – Adds a test program target with the given name,
+# built from the given source files and linked against the Catch2 test
+# framework. The test framework provides a `main()` function, so you
+# must not.
+#
+# The this command has the same options as `add_program`.
+#
+# This command defines the preprocessor macro CS211_TESTING, which means
+# your code can test whether it is being compiled for testing via
+# `#ifdef`:
+#
+# ```cxx
+# #ifdef CS211_TESTING
+# // ... code that will be compiled only when testing ...
+# #else
+# // ... code that will be compiled only when NOT testing ...
+# #endif
+# ```
+function(add_test_program name)
+    _add_program_common(${name} ${ARGN})
+    target_compile_definitions(${name} PRIVATE CS211_TESTING)
+    target_link_libraries(${name} catch)
+    add_test(Test_${name} ${name})
+endfunction(add_test_program)
+
+function (_add_program_common name)
     cmake_parse_arguments(pa "ASAN;NO_UBSAN;CXX17;CXX20;" "" "" ${ARGN})
 
     add_executable(${name} ${pa_UNPARSED_ARGUMENTS})
@@ -63,32 +95,7 @@ function (add_program name)
 
     set_property(TARGET ${name} PROPERTY CXX_STANDARD_REQUIRED  On)
     set_property(TARGET ${name} PROPERTY CXX_EXTENSIONS         Off)
-endfunction(add_program)
-
-# ADD_TEST_PROGRAM – Adds a test program target with the given name,
-# built from the given source files and linked against the Catch2 test
-# framework. The test framework provides a `main()` function, so you
-# must not.
-#
-# The this command has the same options as `add_program`.
-#
-# This command defines the preprocessor macro CS211_TESTING, which means
-# your code can test whether it is being compiled for testing via
-# `#ifdef`:
-#
-# ```cxx
-# #ifdef CS211_TESTING
-# // ... code that will be compiled only when testing ...
-# #else
-# // ... code that will be compiled only when NOT testing ...
-# #endif
-# ```
-function(add_test_program name)
-    add_program(${name} ${ARGN})
-    target_compile_definitions(${name} PRIVATE CS211_TESTING)
-    target_link_libraries(${name} catch)
-    add_test(Test_${name} ${name})
-endfunction(add_test_program)
+endfunction(_add_program_common)
 
 # Compilation flags we turn on automatically if available.
 set(CS211_CXXFLAGS
