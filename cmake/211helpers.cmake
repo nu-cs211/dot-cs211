@@ -7,8 +7,7 @@ include(CheckCXXCompilerFlag)
 #
 # adds to the target all options that are supported by the
 # C++ compiler.
-function(target_supported_compile_options target)
-    set(scope PRIVATE)
+function(target_supported_compile_options target scope)
     foreach (flag ${ARGN})
         string(TOUPPER "CXXFLAG_${flag}_OKAY" sym)
         string(REGEX REPLACE "[-=_]+" "_" sym "${sym}")
@@ -23,8 +22,7 @@ endfunction()
 #
 # adds to the target all options that are supported by the
 # C++ compiler and linker.
-function(target_supported_options target)
-    set(scope PRIVATE)
+function(target_supported_options target scope)
     set(original_flags ${CMAKE_CXX_FLAGS})
     foreach (flag ${ARGN})
         string(TOUPPER "LDFLAG_${flag}_OKAY" sym)
@@ -39,22 +37,12 @@ function(target_supported_options target)
 endfunction()
 
 
-# Prints out a list variable for inspection.
-function(show_list var)
-    message(STATUS "${var}:")
-    foreach(item IN LISTS ${var})
-        message(STATUS " - ${item}")
-    endforeach()
-endfunction()
-
 # find_local_package(name dir)
 #
 # Look for an installed package ${name}, otherwise load the vendored
 # version from ${dir}.
 function(find_local_package name dir)
     cmake_parse_arguments(pa "" "VERSION;" "" ${ARGN})
-
-
 
     if ($ENV{${name}_VENDORED})
         message(STATUS "Requested vendored ${name} library (${dir})")
@@ -71,12 +59,7 @@ function(find_local_package name dir)
         find_package(${name} ${sysver} CONFIG)
 
         if (NOT ${name}_FOUND)
-            message(STATUS "Requested system ${name} library not found")
-            show_list(CMAKE_PREFIX_PATH)
-            show_list(CMAKE_MODULE_PATH)
-            show_list(${name}_CONSIDERED_CONFIGS)
-            show_list(${name}_CONSIDERED_VERSIONS)
-            message(FATAL_ERROR "Giving up now...")
+            message(FATAL_ERROR "Requested system ${name} library not found")
         endif ()
     endif ()
 

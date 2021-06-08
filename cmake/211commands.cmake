@@ -41,6 +41,7 @@ include(211helpers)
 function (add_program name)
     _add_program_common(${name} ${ARGN})
     if (EMSCRIPTEN)
+        include (Ge211EmscriptenHelpers)
         emscripten_add_target(${name})
     endif ()
 endfunction(add_program)
@@ -74,15 +75,22 @@ function (_add_program_common name)
     cmake_parse_arguments(pa "ASAN;NO_UBSAN;CXX17;CXX20;" "" "" ${ARGN})
 
     add_executable(${name} ${pa_UNPARSED_ARGUMENTS})
-    target_supported_compile_options(${name} ${CS211_CXXFLAGS})
+
+    target_compile_options(${name} PRIVATE
+        ${CS211_REQUIRED_CXXFLAGS})
+    target_supported_compile_options(${name} PRIVATE
+        ${CS211_OPTIONAL_CXXFLAGS})
 
     if(pa_ASAN)
-        target_compile_options(${name} PRIVATE "-fsanitize=address")
-        target_link_options(${name} PRIVATE "-fsanitize=address")
+        target_compile_options(${name} PRIVATE
+            "-fsanitize=address")
+        target_link_options(${name} PRIVATE
+            "-fsanitize=address")
     endif(pa_ASAN)
 
     if(NOT pa_NO_UBSAN)
-        target_supported_options(${name} "-fsanitize=undefined")
+        target_supported_options(${name} PRIVATE
+            "-fsanitize=undefined")
     endif(NOT pa_NO_UBSAN)
 
     if(pa_CXX20)
@@ -97,19 +105,22 @@ function (_add_program_common name)
     set_property(TARGET ${name} PROPERTY CXX_EXTENSIONS         Off)
 endfunction(_add_program_common)
 
-# Compilation flags we turn on automatically if available.
-set(CS211_CXXFLAGS
+# Compilation flags we turn on automatically.
+set(CS211_REQUIRED_CXXFLAGS
     -Wall
-    -Wcast-align=strict
     -Wcast-qual
     -Wdangling-else
     -Wnull-dereference
     -Wtype-limits
     -Wwrite-strings
-    -Werror=bool-compare
     -Werror=bool-operation
     -Werror=int-to-pointer-cast
     -Werror=return-type
     -Werror=uninitialized)
+
+# Compilation flags we turn on automatically if available.
+set(CS211_OPTIONAL_CXXFLAGS
+    -Wcast-align=strict
+    -Werror=bool-compare)
 
 # vim: ft=cmake
