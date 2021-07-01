@@ -113,7 +113,6 @@ set(CS211_REQUIRED_CXXFLAGS
     -Wnull-dereference
     -Wtype-limits
     -Wwrite-strings
-    -Werror=bool-operation
     -Werror=int-to-pointer-cast
     -Werror=return-type
     -Werror=uninitialized)
@@ -121,6 +120,7 @@ set(CS211_REQUIRED_CXXFLAGS
 # Compilation flags we turn on automatically if available.
 set(CS211_OPTIONAL_CXXFLAGS
     -Wcast-align=strict
-    -Werror=bool-compare)
+    -Werror=bool-compare
+    -Werror=bool-operation)
 
 # vim: ft=cmake
